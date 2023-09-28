@@ -100,7 +100,7 @@ func ParseNginxLogLine(line string) NginxAccessLog {
 
 	// TODO: make sure that the actual date/time format from the log is parsed properly here
 	timestampStr := strings.Trim(fields[3], "[]")
-	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", timestampStr)
+	timestamp, err := time.Parse("02/Jan/2006:15:04:05", timestampStr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error parsing timestamp: %v\n", err)
 	}
