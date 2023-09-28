@@ -25,6 +25,21 @@ type GeoInfo struct {
 	As         string  `json:"as"`
 }
 
+func isPrivateIP(ip net.IP) bool {
+	privateIPBlocks := []net.IPNet{
+		{IP: net.IPv4(10, 0, 0, 0), Mask: net.CIDRMask(8, 32)},
+		{IP: net.IPv4(172, 16, 0, 0), Mask: net.CIDRMask(12, 32)},
+		{IP: net.IPv4(192, 168, 0, 0), Mask: net.CIDRMask(16, 32)},
+	}
+
+	for _, block := range privateIPBlocks {
+		if block.Contains(ip) {
+			return true
+		}
+	}
+	return false
+}
+
 var geoipCmd = &cobra.Command{
 	Use:   "geoip [ip]",
 	Short: "Get geolocation information for an IP address",
@@ -33,6 +48,10 @@ var geoipCmd = &cobra.Command{
 		ip := net.ParseIP(args[0])
 		if ip == nil {
 			fmt.Println("Invalid IP address:", args[0])
+			return
+		}
+		if isPrivateIP(ip) {
+			fmt.Println("The IP address is private and cannot be geolocated.")
 			return
 		}
 		getGeoInfo(args[0])
