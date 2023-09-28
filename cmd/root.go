@@ -89,7 +89,8 @@ func ParseNginxLogLine(line string) NginxAccessLog {
 
 	// TODO: make sure that the actual date/time format from the log is parsed properly here
 	/ do not fatal but output the error to stderr
-	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", fields[1])
+	timestampStr := strings.Trim(fields[3], "[]")
+	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", timestampStr)
 	if err != nil {
 		log.Fatal(err)
 	}
