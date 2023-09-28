@@ -8,9 +8,31 @@ import (
 
 var dbFileName string
 
+import (
+	"os"
+	"bufio"
+)
+
 var sqliteCmd = &cobra.Command{
 	Use:   "sqlite",
 	Short: "Print the current filename of the sqlite db",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if _, err := os.Stat(dbFileName); os.IsNotExist(err) {
+			reader := bufio.NewReader(os.Stdin)
+			fmt.Print("Database file does not exist. Do you want to create it? (y/n): ")
+			text, _ := reader.ReadString('\n')
+			if text == "y\n" {
+				file, err := os.Create(dbFileName)
+				if err != nil {
+					log.Fatal(err)
+				}
+				file.Close()
+				fmt.Println("Database file created.")
+			} else {
+				fmt.Println("Database file not created.")
+			}
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Current SQLite DB filename:", dbFileName)
 	},
