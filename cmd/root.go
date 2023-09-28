@@ -16,7 +16,7 @@ import (
 
 var LogEntries []NginxAccessLog
 var numLines int
-var Interactive bool
+var Interactive, Unique bool
 var Start, End, GroupBy string
 
 type NginxAccessLog struct {
@@ -62,6 +62,7 @@ func (log NginxAccessLog) GetField(field string) string {
 func init() {
 	RootCmd.PersistentFlags().IntVarP(&numLines, "number-lines", "n", 0, "Number of lines to read from the file or stdin")
 	RootCmd.PersistentFlags().BoolVarP(&Interactive, "interactive", "i", false, "Enable interactive mode")
+	RootCmd.PersistentFlags().BoolVarP(&Unique, "unique", "u", false, "Only add unique entries to the log")
 	RootCmd.PersistentFlags().StringVarP(&Start, "start", "s", "", "Limit entries on or after this datetime")
 	RootCmd.PersistentFlags().SetAnnotation("start", cobra.BashCompFilenameExt, []string{"date"})
 	RootCmd.PersistentFlags().StringVarP(&End, "end", "e", "", "Limit entries on or before this datetime")
@@ -89,7 +90,20 @@ It provides useful insights and analytics from your log files.`,
 				}
 				// Parse the line here
 				log := ParseNginxLogLine(line)
-				LogEntries = append(LogEntries, log)
+				if Unique {
+					unique := true
+					for _, entry := range LogEntries {
+						if entry.Checksum == log.Checksum {
+							unique = false
+							break
+						}
+					}
+					if unique {
+						LogEntries = append(LogEntries, log)
+					}
+				} else {
+					LogEntries = append(LogEntries, log)
+				}
 			}
 		} else {
 			// Open the file and parse it line by line
@@ -105,8 +119,22 @@ It provides useful insights and analytics from your log files.`,
 				line := scanner.Text()
 				// Parse the line here
 				log := ParseNginxLogLine(line)
-				LogEntries = append(LogEntries, log)
-				linesRead++
+				if Unique {
+					unique := true
+					for _, entry := range LogEntries {
+						if entry.Checksum == log.Checksum {
+							unique = false
+							break
+						}
+					}
+					if unique {
+						LogEntries = append(LogEntries, log)
+						linesRead++
+					}
+				} else {
+					LogEntries = append(LogEntries, log)
+					linesRead++
+				}
 				if numLines > 0 && linesRead >= numLines {
 					break
 				}
