@@ -51,6 +51,9 @@ If no arguments are given, it will print the state/value of all flags.`,
 				}
 			case "end":
 				if t, err := dateparse.ParseAny(args[1]); err == nil {
+					if t.Hour() == 0 && t.Minute() == 0 && t.Second() == 0 {
+						t = t.Add(time.Hour*23 + time.Minute*59 + time.Second*59)
+					}
 					End = t.Format(time.RFC3339)
 					fmt.Printf("Updated 'end' to: %s\n", End)
 				} else {
