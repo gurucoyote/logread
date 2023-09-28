@@ -118,11 +118,13 @@ var fromdbCmd = &cobra.Command{
 				return
 			}
 			LogEntries = append(LogEntries, log)
+			fmt.Printf("Added log entry: %+v\n", log) // Debug print
 		}
 		err = rows.Err()
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
+		fmt.Printf("Total log entries after fromdb: %d\n", len(LogEntries)) // Debug print
 	},
 }
 
