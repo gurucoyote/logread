@@ -13,7 +13,13 @@ var jsonCmd = &cobra.Command{
 	Short: "Output log entries as JSON",
 	Long:  `This command outputs the log entries as a JSON formatted string.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		jsonData, err := json.MarshalIndent(LogEntries, "", "    ")
+		var entriesToOutput []NginxAccessLog
+		if numLines > 0 && numLines < len(LogEntries) {
+			entriesToOutput = LogEntries[:numLines]
+		} else {
+			entriesToOutput = LogEntries
+		}
+		jsonData, err := json.MarshalIndent(entriesToOutput, "", "    ")
 		if err != nil {
 			log.Fatal(err)
 		}
