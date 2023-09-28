@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 	"bufio"
-	"time"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/spf13/cobra"
+	"github.com/araddon/dateparse"
 )
 
 var dbFileName string
