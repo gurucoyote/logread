@@ -32,6 +32,33 @@ type NginxAccessLog struct {
 	Checksum        string
 }
 
+func (log NginxAccessLog) GetField(field string) string {
+	switch field {
+	case "IP":
+		return log.IP
+	case "TIMESTAMP":
+		return log.Timestamp.String()
+	case "STATUSCODE":
+		return log.StatusCode
+	case "BYTESSENT":
+		return log.BytesSent
+	case "REQUESTMETHOD":
+		return log.RequestMethod
+	case "REQUESTURL":
+		return log.RequestURL
+	case "REQUESTPROTOCOL":
+		return log.RequestProtocol
+	case "REFERRER":
+		return log.Referrer
+	case "USERAGENT":
+		return log.UserAgent
+	case "CHECKSUM":
+		return log.Checksum
+	default:
+		return ""
+	}
+}
+
 func init() {
 	RootCmd.PersistentFlags().IntVarP(&numLines, "number-lines", "n", 0, "Number of lines to read from the file or stdin")
 	RootCmd.PersistentFlags().BoolVarP(&Interactive, "interactive", "i", false, "Enable interactive mode")

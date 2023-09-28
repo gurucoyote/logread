@@ -37,7 +37,7 @@ Run: func(cmd *cobra.Command, args []string) {
 	// Iterate over the global log entries slice
 	for _, entry := range LogEntries {
 		// For each entry, increment the count of the specified field's value in the map
-		counts[entry[field]]++
+		counts[entry.GetField(field)]++
 	}
 
 	// Convert the map into a slice of pairs (value, count) for sorting
