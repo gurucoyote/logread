@@ -45,7 +45,7 @@ If no arguments are given, it will print the state/value of all flags.`,
 				if contains(validFields, args[1]) {
 					GroupBy = args[1]
 				} else {
-					fmt.Printf("Invalid field for group-by: %s\n", args[1])
+					fmt.Printf("Invalid field for group-by: %s. Valid fields are: %s\n", args[1], strings.Join(validFields, ", "))
 				}
 			default:
 				fmt.Printf("Unknown flag: %s\n", args[0])
