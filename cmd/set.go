@@ -39,16 +39,19 @@ If no arguments are given, it will print the state/value of all flags.`,
 					fmt.Printf("Invalid value for number-lines: %s\n", args[1])
 				} else {
 					numLines = num
+					fmt.Printf("Updated 'number-lines' to: %d\n", numLines)
 				}
 			case "start":
 				if isValidDate(args[1]) {
 					Start = args[1]
+					fmt.Printf("Updated 'start' to: %s\n", Start)
 				} else {
 					fmt.Printf("Invalid date format for start: %s\n", args[1])
 				}
 			case "end":
 				if isValidDate(args[1]) {
 					End = args[1]
+					fmt.Printf("Updated 'end' to: %s\n", End)
 				} else {
 					fmt.Printf("Invalid date format for end: %s\n", args[1])
 				}
@@ -58,6 +61,7 @@ If no arguments are given, it will print the state/value of all flags.`,
 					fmt.Println(err)
 				} else {
 					GroupBy = field
+					fmt.Printf("Updated 'group-by' to: %s\n", GroupBy)
 				}
 			default:
 				fmt.Printf("Unknown flag: %s\n", args[0])
