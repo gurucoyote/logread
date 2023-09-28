@@ -22,7 +22,8 @@ It provides useful insights and analytics from your log files.`,
 			for scanner.Scan() {
 				line := scanner.Text()
 				// Parse the line here
-				fmt.Println(line)
+				log := ParseNginxLogLine(line)
+				fmt.Println(log)
 			}
 		} else {
 			// Open the file and parse it line by line
@@ -36,7 +37,8 @@ It provides useful insights and analytics from your log files.`,
 			for scanner.Scan() {
 				line := scanner.Text()
 				// Parse the line here
-				fmt.Println(line)
+				log := ParseNginxLogLine(line)
+				fmt.Println(log)
 			}
 		}
 	},
