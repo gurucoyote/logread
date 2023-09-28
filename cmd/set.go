@@ -51,20 +51,10 @@ If no arguments are given, it will print the state/value of all flags.`,
 					fmt.Printf("Invalid date format for end: %s\n", args[1])
 				}
 			case "group-by":
-				validFields := map[string]string{
-					"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
-					"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
-					"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
-				}
-				upperArg := strings.ToUpper(args[1])
-				if field, ok := validFields[upperArg]; ok {
-					GroupBy = field
+				if IsValidFieldName(args[1]) {
+					GroupBy = strings.ToUpper(args[1])
 				} else {
-					keys := make([]string, 0, len(validFields))
-					for k := range validFields {
-						keys = append(keys, k)
-					}
-					fmt.Printf("Invalid field for group-by: %s. Valid fields are: %s\n", args[1], strings.Join(keys, ", "))
+					fmt.Printf("Invalid field for group-by: %s. Valid fields are: %s\n", args[1], strings.Join(GetValidFieldNames(), ", "))
 				}
 			default:
 				fmt.Printf("Unknown flag: %s\n", args[0])
@@ -88,4 +78,26 @@ func contains(slice []string, str string) bool {
 func isValidDate(date string) bool {
 	_, err := dateparse.ParseAny(date)
 	return err == nil
+}
+func IsValidFieldName(fieldName string) bool {
+	validFields := map[string]string{
+		"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
+		"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
+		"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
+	}
+	_, ok := validFields[strings.ToUpper(fieldName)]
+	return ok
+}
+
+func GetValidFieldNames() []string {
+	validFields := map[string]string{
+		"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
+		"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
+		"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
+	}
+	keys := make([]string, 0, len(validFields))
+	for k := range validFields {
+		keys = append(keys, k)
+	}
+	return keys
 }
