@@ -37,15 +37,15 @@ var sqliteCmd = &cobra.Command{
 				sqlStmt := `
 				CREATE TABLE accesslog (
 					IP TEXT,
-					Ident TEXT,
-					UserID TEXT,
-					Time TEXT,
-					Request TEXT,
-					Status TEXT,
+					Timestamp TEXT,
+					StatusCode TEXT,
 					BytesSent TEXT,
-					Referer TEXT,
+					RequestMethod TEXT,
+					RequestURL TEXT,
+					RequestProtocol TEXT,
+					Referrer TEXT,
 					UserAgent TEXT,
-					Unknown TEXT
+					Checksum TEXT
 				);
 				`
 				_, err = db.Exec(sqlStmt)
