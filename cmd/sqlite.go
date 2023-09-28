@@ -96,6 +96,7 @@ var fromdbCmd = &cobra.Command{
 	Use:   "fromdb",
 	Short: "Read log entries from an existing sqlite db",
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("fromdb called")
 		db, err := sql.Open("sqlite3", dbFileName)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
