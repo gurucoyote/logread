@@ -81,21 +81,30 @@ func isValidDate(date string) bool {
 	_, err := dateparse.ParseAny(date)
 	return err == nil
 }
+import "regexp"
+
 func ValidField(fieldName string) (string, error) {
-	// TODO: use the GetValidFields func here!
 	validFields := map[string]string{
 		"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
 		"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
 		"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
 	}
-	// TODO: use regex to match case insensitve and also for sub-string matches
-	field, ok := validFields[strings.ToUpper(fieldName)]
-	if !ok {
-		// TODO: include valid names in error message
-		return "", fmt.Errorf("Invalid field name: %s", fieldName)
+
+	var matchedField string
+	for validField := range validFields {
+		match, _ := regexp.MatchString("(?i)" + fieldName, validField)
+		if match {
+			matchedField = validField
+			break
+		}
 	}
-	// TODO: return the matched entry from valid fields, in origianl and full 
-	return field, nil
+
+	if matchedField == "" {
+		validFieldNames := strings.Join(GetValidFieldNames(), ", ")
+		return "", fmt.Errorf("Invalid field name: %s. Valid fields are: %s", fieldName, validFieldNames)
+	}
+
+	return validFields[matchedField], nil
 }
 
 
