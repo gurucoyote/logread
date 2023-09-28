@@ -75,7 +75,7 @@ It provides useful insights and analytics from your log files.`,
 				}
 			}
 			fmt.Printf("Count of entries: %d\n", len(LogEntries))
-			jsonData, err := json.Marshal(LogEntries)
+			jsonData, err := json.MarshalIndent(LogEntries, "", "    ")
 			if err != nil {
 				log.Fatal(err)
 			}
