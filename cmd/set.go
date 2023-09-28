@@ -41,7 +41,12 @@ If no arguments are given, it will print the state/value of all flags.`,
 			case "end":
 				End = args[1]
 			case "group-by":
-				GroupBy = args[1]
+				validFields := []string{"IP", "Timestamp", "StatusCode", "BytesSent", "RequestMethod", "RequestURL", "RequestProtocol", "Referrer", "UserAgent", "Checksum"}
+				if contains(validFields, args[1]) {
+					GroupBy = args[1]
+				} else {
+					fmt.Printf("Invalid field for group-by: %s\n", args[1])
+				}
 			default:
 				fmt.Printf("Unknown flag: %s\n", args[0])
 			}
@@ -51,4 +56,12 @@ If no arguments are given, it will print the state/value of all flags.`,
 
 func init() {
 	RootCmd.AddCommand(setCmd)
+}
+func contains(slice []string, str string) bool {
+	for _, v := range slice {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }

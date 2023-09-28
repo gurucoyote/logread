@@ -36,7 +36,9 @@ func init() {
 	RootCmd.PersistentFlags().IntVarP(&numLines, "number-lines", "n", 0, "Number of lines to read from the file or stdin")
 	RootCmd.PersistentFlags().BoolVarP(&Interactive, "interactive", "i", false, "Enable interactive mode")
 	RootCmd.PersistentFlags().StringVarP(&Start, "start", "s", "", "Limit entries on or after this datetime")
+	RootCmd.PersistentFlags().SetAnnotation("start", cobra.BashCompFilenameExt, []string{"date"})
 	RootCmd.PersistentFlags().StringVarP(&End, "end", "e", "", "Limit entries on or before this datetime")
+	RootCmd.PersistentFlags().SetAnnotation("end", cobra.BashCompFilenameExt, []string{"date"})
 	RootCmd.PersistentFlags().StringVarP(&GroupBy, "group-by", "g", "", "Group entries by this field")
 }
 
