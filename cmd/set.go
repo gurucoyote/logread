@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 	"reflect"
 	"regexp"
+	"strconv"
+	"strings"
 
 	"github.com/araddon/dateparse"
 	"github.com/spf13/cobra"
@@ -84,10 +84,10 @@ func isValidDate(date string) bool {
 }
 
 func ValidField(fieldName string) (string, error) {
-	validFields :=GetValidFieldNames()
+	validFields := GetValidFieldNames()
 	matchedField := ""
 	for _, validField := range validFields {
-		match, _ := regexp.MatchString("(?i)" + fieldName, validField)
+		match, _ := regexp.MatchString("(?i)"+fieldName, validField)
 		if match {
 			matchedField = validField
 			break
@@ -99,7 +99,6 @@ func ValidField(fieldName string) (string, error) {
 
 	return matchedField, nil
 }
-
 
 func GetValidFieldNames() []string {
 	e := reflect.ValueOf(&NginxAccessLog{}).Elem()

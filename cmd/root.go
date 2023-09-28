@@ -149,6 +149,7 @@ func ParseNginxLogLine(line string) NginxAccessLog {
 	}
 	return log
 }
+
 var exitCmd = &cobra.Command{
 	Use:     "exit",
 	Aliases: []string{"q", "Q", "bye"},
