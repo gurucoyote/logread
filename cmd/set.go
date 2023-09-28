@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"reflect"
 
 	"github.com/araddon/dateparse"
 	"github.com/spf13/cobra"
@@ -81,19 +82,22 @@ func isValidDate(date string) bool {
 	return err == nil
 }
 func ValidField(fieldName string) (string, error) {
+	// TODO: use the GetValidFields func here!
 	validFields := map[string]string{
 		"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
 		"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
 		"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
 	}
+	// TODO: use regex to match case insensitve and also for sub-string matches
 	field, ok := validFields[strings.ToUpper(fieldName)]
 	if !ok {
+		// TODO: include valid names in error message
 		return "", fmt.Errorf("Invalid field name: %s", fieldName)
 	}
+	// TODO: return the matched entry from valid fields, in origianl and full 
 	return field, nil
 }
 
-import "reflect"
 
 func GetValidFieldNames() []string {
 	e := reflect.ValueOf(&NginxAccessLog{}).Elem()
