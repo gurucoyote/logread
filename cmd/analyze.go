@@ -45,8 +45,20 @@ Run: func(cmd *cobra.Command, args []string) {
 		return pairs[i].Count > pairs[j].Count
 	})
 
+	// Determine the number of lines to print
+	var numLinesToPrint int
+	if len(args) > 1 {
+		numLinesToPrint, err = strconv.Atoi(args[1])
+		if err != nil {
+			fmt.Println("Invalid number of lines:", args[1])
+			return
+		}
+	} else {
+		numLinesToPrint = len(pairs)
+	}
+
 	// Print the top n entries from the sorted slice
-	for i := 0; i < numLines && i < len(pairs); i++ {
+	for i := 0; i < numLinesToPrint && i < len(pairs); i++ {
 		fmt.Printf("%s: %d\n", pairs[i].Value, pairs[i].Count)
 	}
 },
