@@ -2,16 +2,12 @@ package cmd
 
 import (
 	"fmt"
-
+	"os"
+	"bufio"
 	"github.com/spf13/cobra"
 )
 
 var dbFileName string
-
-import (
-	"os"
-	"bufio"
-)
 
 var sqliteCmd = &cobra.Command{
 	Use:   "sqlite",
