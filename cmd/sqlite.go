@@ -120,7 +120,12 @@ var fromdbCmd = &cobra.Command{
 				fmt.Fprintln(os.Stderr, err)
 				return
 			}
-			log.Timestamp, err = time.Parse(time.RFC3339, timestampStr)
+			if t, err := dateparse.ParseAny(timestampStr); err == nil {
+				log.Timestamp = t
+			} else {
+				fmt.Printf("Invalid date format for timestamp: %s\n", timestampStr)
+				return
+			}
 			if err != nil {
 				fmt.Fprintln(os.Stderr, err)
 				return
