@@ -42,6 +42,9 @@ It provides useful insights and analytics from your log files.`,
 			scanner := bufio.NewScanner(os.Stdin)
 			for scanner.Scan() {
 				line := scanner.Text()
+				if line == "" {
+					break
+				}
 				// Parse the line here
 				log := ParseNginxLogLine(line)
 				LogEntries = append(LogEntries, log)
