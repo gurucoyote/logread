@@ -51,10 +51,11 @@ If no arguments are given, it will print the state/value of all flags.`,
 					fmt.Printf("Invalid date format for end: %s\n", args[1])
 				}
 			case "group-by":
-				if IsValidFieldName(args[1]) {
-					GroupBy = strings.ToUpper(args[1])
-				} else {
+				field, err := ValidField(args[1])
+				if err != nil {
 					fmt.Printf("Invalid field for group-by: %s. Valid fields are: %s\n", args[1], strings.Join(GetValidFieldNames(), ", "))
+				} else {
+					GroupBy = field
 				}
 			default:
 				fmt.Printf("Unknown flag: %s\n", args[0])
@@ -79,14 +80,17 @@ func isValidDate(date string) bool {
 	_, err := dateparse.ParseAny(date)
 	return err == nil
 }
-func IsValidFieldName(fieldName string) bool {
+func ValidField(fieldName string) (string, error) {
 	validFields := map[string]string{
 		"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
 		"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
 		"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
 	}
-	_, ok := validFields[strings.ToUpper(fieldName)]
-	return ok
+	field, ok := validFields[strings.ToUpper(fieldName)]
+	if !ok {
+		return "", fmt.Errorf("Invalid field name: %s", fieldName)
+	}
+	return field, nil
 }
 
 func GetValidFieldNames() []string {
