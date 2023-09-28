@@ -63,11 +63,16 @@ It provides useful insights and analytics from your log files.`,
 			defer file.Close()
 
 			scanner := bufio.NewScanner(file)
+			linesRead := 0
 			for scanner.Scan() {
 				line := scanner.Text()
 				// Parse the line here
 				log := ParseNginxLogLine(line)
 				LogEntries = append(LogEntries, log)
+				linesRead++
+				if numLines > 0 && linesRead >= numLines {
+					break
+				}
 			}
 			fmt.Printf("Count of entries: %d\n", len(LogEntries))
 			jsonData, err := json.Marshal(LogEntries)
