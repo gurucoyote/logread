@@ -1,6 +1,8 @@
 package main
 
-import "github.com/yourusername/yourproject/cmd"
+import (
+	"logread/cmd"
+)
 
 func main() {
 	cmd.Execute()

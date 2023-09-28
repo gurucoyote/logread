@@ -5,13 +5,13 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
 	"strings"
-)
+	"time"
 
-import "time"
+	"github.com/spf13/cobra"
+)
 
 type NginxAccessLog struct {
 	IP              string
@@ -25,7 +25,6 @@ type NginxAccessLog struct {
 	UserAgent       string
 	Checksum        string
 }
-
 
 var rootCmd = &cobra.Command{
 	Use:   "logread [file]",
@@ -72,8 +71,6 @@ func checksum(input string) string {
 	hash := sha256.Sum256([]byte(input))
 	return hex.EncodeToString(hash[:])
 }
-
-import "time"
 
 func ParseNginxLogLine(line string) NginxAccessLog {
 	fields := strings.Fields(line)
