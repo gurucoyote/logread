@@ -37,6 +37,6 @@ var fromdbCmd = &cobra.Command{
 func init() {
 	sqliteCmd.PersistentFlags().StringVarP(&dbFileName, "database", "d", "./access.db", "SQLite database file name")
 	RootCmd.AddCommand(sqliteCmd)
-	RootCmd.AddCommand(todbCmd)
-	RootCmd.AddCommand(fromdbCmd)
+	sqliteCmd.AddCommand(todbCmd)
+	sqliteCmd.AddCommand(fromdbCmd)
 }
