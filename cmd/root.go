@@ -47,8 +47,10 @@ It provides useful insights and analytics from your log files.`,
 			scanner := bufio.NewScanner(os.Stdin)
 			for scanner.Scan() {
 				line := scanner.Text()
-				if line == "" {
-					break
+				if false {
+					if line == "" {
+						break
+					}
 				}
 				// Parse the line here
 				log := ParseNginxLogLine(line)
@@ -74,13 +76,13 @@ It provides useful insights and analytics from your log files.`,
 					break
 				}
 			}
-			fmt.Printf("Count of entries: %d\n", len(LogEntries))
-			jsonData, err := json.MarshalIndent(LogEntries, "", "    ")
-			if err != nil {
-				log.Fatal(err)
-			}
-			fmt.Println(string(jsonData))
 		}
+		fmt.Printf("Count of entries: %d\n", len(LogEntries))
+		jsonData, err := json.MarshalIndent(LogEntries, "", "    ")
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(jsonData))
 	},
 }
 
