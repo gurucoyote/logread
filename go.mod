@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/chzyer/readline v1.5.1
+	github.com/mattn/go-sqlite3 v1.14.17
 	github.com/spf13/cobra v1.7.0
 )
 
