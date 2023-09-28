@@ -31,6 +31,10 @@ type NginxAccessLog struct {
 
 func init() {
 	rootCmd.PersistentFlags().IntVarP(&numLines, "number-lines", "n", 0, "Number of lines to read from the file or stdin")
+	rootCmd.PersistentFlags().BoolP("interactive", "i", false, "Enter interactive REPL")
+	rootCmd.PersistentFlags().StringP("start", "s", "", "Limit entries on or after this datetime")
+	rootCmd.PersistentFlags().StringP("end", "e", "", "Limit entries on or before this datetime")
+	rootCmd.PersistentFlags().StringP("group-by", "g", "", "Group entries by this field")
 }
 
 var rootCmd = &cobra.Command{
