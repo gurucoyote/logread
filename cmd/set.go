@@ -37,9 +37,17 @@ If no arguments are given, it will print the state/value of all flags.`,
 					numLines = num
 				}
 			case "start":
-				Start = args[1]
+				if isValidDate(args[1]) {
+					Start = args[1]
+				} else {
+					fmt.Printf("Invalid date format for start: %s\n", args[1])
+				}
 			case "end":
-				End = args[1]
+				if isValidDate(args[1]) {
+					End = args[1]
+				} else {
+					fmt.Printf("Invalid date format for end: %s\n", args[1])
+				}
 			case "group-by":
 				validFields := []string{"IP", "Timestamp", "StatusCode", "BytesSent", "RequestMethod", "RequestURL", "RequestProtocol", "Referrer", "UserAgent", "Checksum"}
 				if contains(validFields, args[1]) {
@@ -64,4 +72,9 @@ func contains(slice []string, str string) bool {
 		}
 	}
 	return false
+}
+
+func isValidDate(date string) bool {
+	_, err := dateparse.ParseAny(date)
+	return err == nil
 }
