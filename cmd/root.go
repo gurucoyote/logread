@@ -95,25 +95,23 @@ func checksum(input string) string {
 }
 
 func ParseNginxLogLine(line string) NginxAccessLog {
-	// TODO: see if this actually splits the log fields correctly
 	fields := strings.Fields(line)
 
-	// TODO: make sure that the actual date/time format from the log is parsed properly here
-	timestampStr := strings.Trim(fields[3], "[]")
-	timestamp, err := time.Parse("02/Jan/2006:15:04:05", timestampStr)
+	timestampStr := strings.Trim(fields[3], "[]") + " " + strings.Trim(fields[4], "[]")
+	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", timestampStr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error parsing timestamp: %v\n", err)
 	}
 	log := NginxAccessLog{
 		IP:              fields[0],
 		Timestamp:       timestamp,
-		StatusCode:      fields[2],
-		BytesSent:       fields[3],
-		RequestMethod:   fields[4],
-		RequestURL:      fields[5],
-		RequestProtocol: fields[6],
-		Referrer:        fields[7],
-		UserAgent:       fields[8],
+		StatusCode:      fields[8],
+		BytesSent:       strings.Trim(fields[9], "\""),
+		RequestMethod:   strings.Trim(fields[5], "\""),
+		RequestURL:      fields[6],
+		RequestProtocol: strings.Trim(fields[7], "\""),
+		Referrer:        strings.Trim(fields[10], "\""),
+		UserAgent:       strings.Join(fields[11:len(fields)-1], " "),
 		Checksum:        checksum(line),
 	}
 	return log
