@@ -33,7 +33,7 @@ type NginxAccessLog struct {
 }
 
 func (log NginxAccessLog) GetField(field string) string {
-	switch field {
+	switch strings.ToUpper(field) {
 	case "IP":
 		return log.IP
 	case "TIMESTAMP":
