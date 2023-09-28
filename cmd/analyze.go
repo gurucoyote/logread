@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"sort"
-	"strings"
 	"github.com/spf13/cobra"
 )
 
@@ -16,14 +15,12 @@ It will then output a sorted top n list from the findings, with count and the fi
 
 
 Run: func(cmd *cobra.Command, args []string) {
-	validFields := GetValidFieldNames()
-	upperArg := strings.ToUpper(args[0])
-	if !contains(validFields, upperArg) {
-		fmt.Printf("Invalid field: %s. Valid fields are: %s\n", args[0], strings.Join(validFields, ", "))
-		return
-	}
-	field := upperArg
-
+				field, err := ValidField(args[1])
+				if err != nil {
+					fmt.Println(err)
+					return
+				}
+					fmt.Println("top for: ", field)
 	// Create a map to store the count of each unique value of the specified field
 	counts := make(map[string]int)
 

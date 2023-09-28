@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"reflect"
+	"regexp"
 
 	"github.com/araddon/dateparse"
 	"github.com/spf13/cobra"
@@ -81,30 +82,23 @@ func isValidDate(date string) bool {
 	_, err := dateparse.ParseAny(date)
 	return err == nil
 }
-import "regexp"
 
 func ValidField(fieldName string) (string, error) {
-	validFields := map[string]string{
-		"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
-		"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
-		"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
-	}
-
-	var matchedField string
-	for validField := range validFields {
+	// TODO: use  here
+	validFields :=GetValidFieldNames()
+	matchedField := ""
+	for _, validField := range validFields {
 		match, _ := regexp.MatchString("(?i)" + fieldName, validField)
 		if match {
 			matchedField = validField
 			break
 		}
 	}
-
 	if matchedField == "" {
-		validFieldNames := strings.Join(GetValidFieldNames(), ", ")
-		return "", fmt.Errorf("Invalid field name: %s. Valid fields are: %s", fieldName, validFieldNames)
+		return "", fmt.Errorf("Invalid field name: %s. Valid fields are: %s", fieldName, strings.Join(GetValidFieldNames(), ", "))
 	}
 
-	return validFields[matchedField], nil
+	return matchedField, nil
 }
 
 
