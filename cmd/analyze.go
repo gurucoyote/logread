@@ -45,7 +45,8 @@ Run: func(cmd *cobra.Command, args []string) {
 		return pairs[i].Count > pairs[j].Count
 	})
 
-	// Print the top n entries from the sorted slice
+	// Print the value of numLines and the top n entries from the sorted slice
+	fmt.Println("numLines: ", numLines)
 	for i := 0; i < numLines && i < len(pairs); i++ {
 		fmt.Printf("%s: %d\n", pairs[i].Value, pairs[i].Count)
 	}
