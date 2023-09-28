@@ -15,6 +15,7 @@ import (
 )
 
 var LogEntries []NginxAccessLog
+var numLines int
 
 type NginxAccessLog struct {
 	IP              string
@@ -27,6 +28,10 @@ type NginxAccessLog struct {
 	Referrer        string
 	UserAgent       string
 	Checksum        string
+}
+
+func init() {
+	rootCmd.PersistentFlags().IntVarP(&numLines, "number-lines", "n", 0, "Number of lines to read from the file or stdin")
 }
 
 var rootCmd = &cobra.Command{
