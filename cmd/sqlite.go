@@ -68,8 +68,27 @@ var todbCmd = &cobra.Command{
 	Use:   "todb",
 	Short: "Write the current log entries to the sqlite db",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("todb command called")
-		// TODO: Implement the functionality to write log entries to the sqlite db
+		db, err := sql.Open("sqlite3", dbFileName)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+		defer db.Close()
+
+		stmt, err := db.Prepare("INSERT INTO accesslog(IP, Timestamp, StatusCode, BytesSent, RequestMethod, RequestURL, RequestProtocol, Referrer, UserAgent, Checksum) values(?,?,?,?,?,?,?,?,?,?)")
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+		defer stmt.Close()
+
+		for _, log := range LogEntries {
+			_, err = stmt.Exec(log.IP, log.Timestamp, log.StatusCode, log.BytesSent, log.RequestMethod, log.RequestURL, log.RequestProtocol, log.Referrer, log.UserAgent, log.Checksum)
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				return
+			}
+		}
 	},
 }
 
