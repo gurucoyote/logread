@@ -104,8 +104,7 @@ func ParseNginxLogLine(line string) NginxAccessLog {
 	timestampStr := strings.Trim(fields[3], "[]")
 	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", timestampStr)
 	if err != nil {
-		// TODO:do not fatal but output the error to stderr
-		log.Fatal(err)
+		fmt.Fprintf(os.Stderr, "Error parsing timestamp: %v\n", err)
 	}
 	log := NginxAccessLog{
 		IP:              fields[0],
