@@ -120,3 +120,16 @@ func ParseNginxLogLine(line string) NginxAccessLog {
 	}
 	return log
 }
+var exitCmd = &cobra.Command{
+	Use:     "exit",
+	Aliases: []string{"q", "Q", "bye"},
+	Short:   "Exit the application",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Goodbye!")
+		os.Exit(0)
+	},
+}
+
+func init() {
+	RootCmd.AddCommand(exitCmd)
+}
