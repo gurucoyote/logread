@@ -16,8 +16,8 @@ import (
 
 var LogEntries []NginxAccessLog
 var numLines int
-var interactive bool
-var start, end, groupBy string
+var Interactive bool
+var Start, End, GroupBy string
 
 type NginxAccessLog struct {
 	IP              string
@@ -33,14 +33,14 @@ type NginxAccessLog struct {
 }
 
 func init() {
-	rootCmd.PersistentFlags().IntVarP(&numLines, "number-lines", "n", 0, "Number of lines to read from the file or stdin")
-	rootCmd.PersistentFlags().BoolVarP(&interactive, "interactive", "i", false, "Enable interactive mode")
-	rootCmd.PersistentFlags().StringVarP(&start, "start", "s", "", "Limit entries on or after this datetime")
-	rootCmd.PersistentFlags().StringVarP(&end, "end", "e", "", "Limit entries on or before this datetime")
-	rootCmd.PersistentFlags().StringVarP(&groupBy, "group-by", "g", "", "Group entries by this field")
+	RootCmd.PersistentFlags().IntVarP(&numLines, "number-lines", "n", 0, "Number of lines to read from the file or stdin")
+	RootCmd.PersistentFlags().BoolVarP(&Interactive, "interactive", "i", false, "Enable interactive mode")
+	RootCmd.PersistentFlags().StringVarP(&Start, "start", "s", "", "Limit entries on or after this datetime")
+	RootCmd.PersistentFlags().StringVarP(&End, "end", "e", "", "Limit entries on or before this datetime")
+	RootCmd.PersistentFlags().StringVarP(&GroupBy, "group-by", "g", "", "Group entries by this field")
 }
 
-var rootCmd = &cobra.Command{
+var RootCmd = &cobra.Command{
 	Use:   "logread [file]",
 	Short: "Read, parse, and analyze (nginx) access.log files",
 	Long: `logread is an application that allows you to read, parse, and analyze (nginx) access.log files.
@@ -88,7 +88,7 @@ It provides useful insights and analytics from your log files.`,
 }
 
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
+	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 	}
 }

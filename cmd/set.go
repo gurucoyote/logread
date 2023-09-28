@@ -16,14 +16,14 @@ If no arguments are given, it will print the state/value of all flags.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			fmt.Printf("number-lines: %d\n", numLines)
-			fmt.Printf("interactive: %t\n", interactive)
-			fmt.Printf("start: %s\n", start)
-			fmt.Printf("end: %s\n", end)
-			fmt.Printf("group-by: %s\n", groupBy)
+			fmt.Printf("interactive: %t\n", Interactive)
+			fmt.Printf("start: %s\n", Start)
+			fmt.Printf("end: %s\n", End)
+			fmt.Printf("group-by: %s\n", GroupBy)
 		} else if len(args) == 1 {
 			switch args[0] {
 			case "interactive":
-				interactive = !interactive
+				Interactive = !Interactive
 			default:
 				fmt.Printf("Unknown flag: %s\n", args[0])
 			}
@@ -37,11 +37,11 @@ If no arguments are given, it will print the state/value of all flags.`,
 					numLines = num
 				}
 			case "start":
-				start = args[1]
+				Start = args[1]
 			case "end":
-				end = args[1]
+				End = args[1]
 			case "group-by":
-				groupBy = args[1]
+				GroupBy = args[1]
 			default:
 				fmt.Printf("Unknown flag: %s\n", args[0])
 			}
@@ -50,5 +50,5 @@ If no arguments are given, it will print the state/value of all flags.`,
 }
 
 func init() {
-	rootCmd.AddCommand(setCmd)
+	RootCmd.AddCommand(setCmd)
 }
