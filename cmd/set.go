@@ -51,9 +51,14 @@ If no arguments are given, it will print the state/value of all flags.`,
 					fmt.Printf("Invalid date format for end: %s\n", args[1])
 				}
 			case "group-by":
-				validFields := []string{"IP", "Timestamp", "StatusCode", "BytesSent", "RequestMethod", "RequestURL", "RequestProtocol", "Referrer", "UserAgent", "Checksum"}
-				if contains(validFields, args[1]) {
-					GroupBy = args[1]
+				validFields := map[string]string{
+					"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
+					"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
+					"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
+				}
+				upperArg := strings.ToUpper(args[1])
+				if field, ok := validFields[upperArg]; ok {
+					GroupBy = field
 				} else {
 					fmt.Printf("Invalid field for group-by: %s. Valid fields are: %s\n", args[1], strings.Join(validFields, ", "))
 				}
