@@ -11,7 +11,7 @@ var topCmd = &cobra.Command{
 	Short: "Display the top n entries for a specified field",
 	Long: `This command will go through the global log entries slice, and count how many entries there are for each unique value of the field specified.
 It will then output a sorted top n list from the findings, with count and the field-name as columns.`,
-	Args: cobra.ExactArgs(1),
+	Args: cobra.MaximumNArgs(2),
 
 
 Run: func(cmd *cobra.Command, args []string) {
