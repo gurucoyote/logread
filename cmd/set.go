@@ -93,15 +93,13 @@ func ValidField(fieldName string) (string, error) {
 	return field, nil
 }
 
+import "reflect"
+
 func GetValidFieldNames() []string {
-	validFields := map[string]string{
-		"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
-		"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
-		"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
+	e := reflect.ValueOf(&NginxAccessLog{}).Elem()
+	var fieldNames []string
+	for i := 0; i < e.NumField(); i++ {
+		fieldNames = append(fieldNames, e.Type().Field(i).Name)
 	}
-	keys := make([]string, 0, len(validFields))
-	for k := range validFields {
-		keys = append(keys, k)
-	}
-	return keys
+	return fieldNames
 }
