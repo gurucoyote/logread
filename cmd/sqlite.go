@@ -26,6 +26,34 @@ var sqliteCmd = &cobra.Command{
 				}
 				file.Close()
 				fmt.Println("Database file created.")
+
+				db, err := sql.Open("sqlite3", dbFileName)
+				if err != nil {
+					fmt.Fprintln(os.Stderr, err)
+					return
+				}
+				defer db.Close()
+
+				sqlStmt := `
+				CREATE TABLE accesslog (
+					IP TEXT,
+					Ident TEXT,
+					UserID TEXT,
+					Time TEXT,
+					Request TEXT,
+					Status TEXT,
+					BytesSent TEXT,
+					Referer TEXT,
+					UserAgent TEXT,
+					Unknown TEXT
+				);
+				`
+				_, err = db.Exec(sqlStmt)
+				if err != nil {
+					fmt.Fprintln(os.Stderr, err)
+					return
+				}
+				fmt.Println("Accesslog table created.")
 			} else {
 				fmt.Println("Database file not created.")
 			}
