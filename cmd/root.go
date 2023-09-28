@@ -1,8 +1,11 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/spf13/cobra"
+	"log"
+	"os"
 )
 
 var rootCmd = &cobra.Command{
