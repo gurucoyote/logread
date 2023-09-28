@@ -1,10 +1,18 @@
 # LogRead - Nginx Logfile Reader
 
-LogRead is a powerful tool written in Go that allows you to read, parse, and analyze Nginx access.log files. It provides useful insights and analytics from your log files, making it easier to understand your server's traffic patterns and troubleshoot issues.
+LogRead is a simple tool written in Go that allows you to read, parse, and
+analyze Nginx access.log files. It provides useful insights and analytics from
+your log files, making it easier to understand your server's traffic patterns
+and troubleshoot issues.
 
-This tool was initially developed in under a day, with the assistance of Aider and GPT4. It was primarily designed to address my personal needs and provide a quick way to gain insights into the activities on a webserver.
+This tool was initially developed in under a day, with the assistance of Aider
+and GPT4. It was primarily designed to address my personal needs and provide a
+quick way to gain insights into the activities on a webserver.
 
-While LogRead can be used in a standard mode for one-off actions, its true potential is unlocked when used in interactive mode (-i). This mode allows you to load a set of log entries from a file or stdin and perform various analyses on it, providing a more in-depth understanding of your server's traffic.
+While LogRead can be used in a standard mode for one-off actions, its true
+potential is unlocked when used in interactive mode (-i). This mode allows you
+to load a set of log entries from a file or stdin and perform various analyses
+on it, providing a more in-depth understanding of your server's traffic.
 
 ## Usage
 
