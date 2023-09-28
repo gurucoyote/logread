@@ -77,8 +77,33 @@ var fromdbCmd = &cobra.Command{
 	Use:   "fromdb",
 	Short: "Read log entries from an existing sqlite db",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("fromdb command called")
-		// TODO: Implement the functionality to read log entries from the sqlite db
+		db, err := sql.Open("sqlite3", dbFileName)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+		defer db.Close()
+
+		rows, err := db.Query("SELECT * FROM accesslog")
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			var log NginxAccessLog
+			err = rows.Scan(&log.IP, &log.Timestamp, &log.StatusCode, &log.BytesSent, &log.RequestMethod, &log.RequestURL, &log.RequestProtocol, &log.Referrer, &log.UserAgent, &log.Checksum)
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				return
+			}
+			LogEntries = append(LogEntries, log)
+		}
+		err = rows.Err()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+		}
 	},
 }
 
