@@ -113,7 +113,17 @@ var fromdbCmd = &cobra.Command{
 
 		for rows.Next() {
 			var log NginxAccessLog
-			err = rows.Scan(&log.IP, &log.Timestamp, &log.StatusCode, &log.BytesSent, &log.RequestMethod, &log.RequestURL, &log.RequestProtocol, &log.Referrer, &log.UserAgent, &log.Checksum)
+			var timestampStr string
+			err = rows.Scan(&log.IP, &timestampStr, &log.StatusCode, &log.BytesSent, &log.RequestMethod, &log.RequestURL, &log.RequestProtocol, &log.Referrer, &log.UserAgent, &log.Checksum)
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				return
+			}
+			log.Timestamp, err = time.Parse(time.RFC3339, timestampStr)
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				return
+			}
 			if err != nil {
 				fmt.Fprintln(os.Stderr, err)
 				return
