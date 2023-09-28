@@ -60,7 +60,11 @@ If no arguments are given, it will print the state/value of all flags.`,
 				if field, ok := validFields[upperArg]; ok {
 					GroupBy = field
 				} else {
-					fmt.Printf("Invalid field for group-by: %s. Valid fields are: %s\n", args[1], strings.Join(validFields, ", "))
+					keys := make([]string, 0, len(validFields))
+					for k := range validFields {
+						keys = append(keys, k)
+					}
+					fmt.Printf("Invalid field for group-by: %s. Valid fields are: %s\n", args[1], strings.Join(keys, ", "))
 				}
 			default:
 				fmt.Printf("Unknown flag: %s\n", args[0])
