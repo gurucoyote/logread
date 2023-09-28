@@ -65,6 +65,31 @@ Run: func(cmd *cobra.Command, args []string) {
 },
 }
 
+var Quiet bool
+
+var statusCmd = &cobra.Command{
+	Use:   "status",
+	Short: "Display metrics about the currently loaded set of log entries",
+	Long:  `This command will output metrics about the currently loaded set of log entries. If the -q or --quiet flag is set, it will only output the total count of log entries. Otherwise, it will output the number of unique values for each valid field name.`,
+	Run:   statusCmdRun,
+}
+
+func statusCmdRun(cmd *cobra.Command, args []string) {
+	if Quiet {
+		fmt.Printf("Total log entries: %d\n", len(LogEntries))
+	} else {
+		for _, fieldName := range GetValidFieldNames() {
+			uniqueValues := make(map[string]struct{})
+			for _, entry := range LogEntries {
+				uniqueValues[entry.GetField(fieldName)] = struct{}{}
+			}
+			fmt.Printf("%s: %d unique values\n", fieldName, len(uniqueValues))
+		}
+	}
+}
+
 func init() {
 	RootCmd.AddCommand(topCmd)
+	RootCmd.AddCommand(statusCmd)
+	statusCmd.Flags().BoolVarP(&Quiet, "quiet", "q", false, "Only output the total count of log entries")
 }
