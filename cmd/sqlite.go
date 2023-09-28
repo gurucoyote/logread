@@ -20,7 +20,7 @@ var sqliteCmd = &cobra.Command{
 			if text == "y\n" {
 				file, err := os.Create(dbFileName)
 				if err != nil {
-					log.Fatal(err)
+					fmt.Fprintln(os.Stderr, err)
 				}
 				file.Close()
 				fmt.Println("Database file created.")
