@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/araddon/dateparse"
 	"github.com/spf13/cobra"
 )
 
@@ -98,7 +99,8 @@ func ParseNginxLogLine(line string) NginxAccessLog {
 	fields := strings.Fields(line)
 
 	timestampStr := strings.Trim(fields[3], "[]") + " " + strings.Trim(fields[4], "[]")
-	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", timestampStr)
+	// timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", timestampStr)
+	timestamp, err := dateparse.ParseAny(timestampStr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error parsing timestamp: %v\n", err)
 	}
