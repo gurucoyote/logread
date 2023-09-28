@@ -16,21 +16,13 @@ It will then output a sorted top n list from the findings, with count and the fi
 
 
 Run: func(cmd *cobra.Command, args []string) {
-	var validFields = map[string]string{
-		"IP": "IP", "TIMESTAMP": "Timestamp", "STATUSCODE": "StatusCode", "BYTESSENT": "BytesSent",
-		"REQUESTMETHOD": "RequestMethod", "REQUESTURL": "RequestURL", "REQUESTPROTOCOL": "RequestProtocol",
-		"REFERRER": "Referrer", "USERAGENT": "UserAgent", "CHECKSUM": "Checksum",
-	}
+	validFields := GetValidFieldNames()
 	upperArg := strings.ToUpper(args[0])
-	if _, ok := validFields[upperArg]; !ok {
-		keys := make([]string, 0, len(validFields))
-		for k := range validFields {
-			keys = append(keys, k)
-		}
-		fmt.Printf("Invalid field: %s. Valid fields are: %s\n", args[0], strings.Join(keys, ", "))
+	if !contains(validFields, upperArg) {
+		fmt.Printf("Invalid field: %s. Valid fields are: %s\n", args[0], strings.Join(validFields, ", "))
 		return
 	}
-	field := validFields[upperArg]
+	field := upperArg
 
 	// Create a map to store the count of each unique value of the specified field
 	counts := make(map[string]int)
