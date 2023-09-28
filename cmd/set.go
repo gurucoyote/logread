@@ -55,7 +55,7 @@ If no arguments are given, it will print the state/value of all flags.`,
 			case "group-by":
 				field, err := ValidField(args[1])
 				if err != nil {
-					fmt.Printf("Invalid field for group-by: %s. Valid fields are: %s\n", args[1], strings.Join(GetValidFieldNames(), ", "))
+					fmt.Println(err)
 				} else {
 					GroupBy = field
 				}
@@ -84,7 +84,6 @@ func isValidDate(date string) bool {
 }
 
 func ValidField(fieldName string) (string, error) {
-	// TODO: use  here
 	validFields :=GetValidFieldNames()
 	matchedField := ""
 	for _, validField := range validFields {
