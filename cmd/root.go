@@ -44,7 +44,7 @@ It provides useful insights and analytics from your log files.`,
 				line := scanner.Text()
 				// Parse the line here
 				log := ParseNginxLogLine(line)
-				fmt.Println(log)
+				LogEntries = append(LogEntries, log)
 			}
 		} else {
 			// Open the file and parse it line by line
@@ -88,10 +88,10 @@ func ParseNginxLogLine(line string) NginxAccessLog {
 	fields := strings.Fields(line)
 
 	// TODO: make sure that the actual date/time format from the log is parsed properly here
-	// do not fatal but output the error to stderr
 	timestampStr := strings.Trim(fields[3], "[]")
 	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", timestampStr)
 	if err != nil {
+		// TODO:do not fatal but output the error to stderr
 		log.Fatal(err)
 	}
 	log := NginxAccessLog{
