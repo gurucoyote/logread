@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -12,6 +13,8 @@ import (
 
 	"github.com/spf13/cobra"
 )
+
+var LogEntries []NginxAccessLog
 
 type NginxAccessLog struct {
 	IP              string
@@ -56,8 +59,14 @@ It provides useful insights and analytics from your log files.`,
 				line := scanner.Text()
 				// Parse the line here
 				log := ParseNginxLogLine(line)
-				fmt.Println(log)
+				LogEntries = append(LogEntries, log)
 			}
+			fmt.Printf("Count of entries: %d\n", len(LogEntries))
+			jsonData, err := json.Marshal(LogEntries)
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println(string(jsonData))
 		}
 	},
 }
