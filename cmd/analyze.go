@@ -15,7 +15,7 @@ It will then output a sorted top n list from the findings, with count and the fi
 
 
 Run: func(cmd *cobra.Command, args []string) {
-				field, err := ValidField(args[1])
+				field, err := ValidField(args[0])
 				if err != nil {
 					fmt.Println(err)
 					return
