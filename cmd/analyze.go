@@ -19,5 +19,5 @@ It will then output a sorted top n list from the findings, with count and the fi
 }
 
 func init() {
-	analyzeCmd.AddCommand(topCmd)
+	RootCmd.AddCommand(topCmd)
 }
