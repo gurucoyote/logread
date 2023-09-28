@@ -82,7 +82,13 @@ func checksum(input string) string {
 }
 
 func ParseNginxLogLine(line string) NginxAccessLog {
+	// sample log line:
+	// 95.91.212.234 - - [04/Jun/2021:19:40:16 +0000] "POST /unigui_impfung/quicktermin.dll/HandleEvent HTTP/1.1" 200 30 "https://deineanmeldung.de/unigui_impfung/quicktermin.dll/terminbuchung-impfung/2AC0F343-38D8-4DCC-BB03-EE828465D1AE" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4532.2 Safari/537.36" "-"
+	// TODO: see if this actually splits the log fields correctly
 	fields := strings.Fields(line)
+
+	// TODO: make sure that the actual date/time format from the log is parsed properly here
+	/ do not fatal but output the error to stderr
 	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", fields[1])
 	if err != nil {
 		log.Fatal(err)
