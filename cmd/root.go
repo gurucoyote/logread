@@ -11,9 +11,11 @@ import (
 	"strings"
 )
 
+import "time"
+
 type NginxAccessLog struct {
 	IP              string
-	Timestamp       string
+	Timestamp       time.Time
 	StatusCode      string
 	BytesSent       string
 	RequestMethod   string
@@ -71,11 +73,17 @@ func checksum(input string) string {
 	return hex.EncodeToString(hash[:])
 }
 
+import "time"
+
 func ParseNginxLogLine(line string) NginxAccessLog {
 	fields := strings.Fields(line)
+	timestamp, err := time.Parse("02/Jan/2006:15:04:05 -0700", fields[1])
+	if err != nil {
+		log.Fatal(err)
+	}
 	log := NginxAccessLog{
 		IP:              fields[0],
-		Timestamp:       fields[1],
+		Timestamp:       timestamp,
 		StatusCode:      fields[2],
 		BytesSent:       fields[3],
 		RequestMethod:   fields[4],
