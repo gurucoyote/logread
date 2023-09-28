@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"bufio"
-	// "database/sql"
+	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/spf13/cobra"
 )
