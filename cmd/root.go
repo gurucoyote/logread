@@ -77,6 +77,7 @@ var RootCmd = &cobra.Command{
 It provides useful insights and analytics from your log files.`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		startTime := time.Now()
 		file := args[0]
 		if file == "-" {
 			// Read from stdin
@@ -140,7 +141,10 @@ It provides useful insights and analytics from your log files.`,
 				}
 			}
 		}
+		endTime := time.Now()
+		duration := endTime.Sub(startTime)
 		fmt.Printf("Count of entries: %d\n", len(LogEntries))
+		fmt.Printf("Time taken to read the logfile: %s\n", duration)
 	},
 }
 
