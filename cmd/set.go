@@ -42,15 +42,15 @@ If no arguments are given, it will print the state/value of all flags.`,
 					fmt.Printf("Updated 'number-lines' to: %d\n", numLines)
 				}
 			case "start":
-				if isValidDate(args[1]) {
-					Start = args[1]
+				if t, err := dateparse.ParseAny(args[1]); err == nil {
+					Start = t.Format(time.RFC3339)
 					fmt.Printf("Updated 'start' to: %s\n", Start)
 				} else {
 					fmt.Printf("Invalid date format for start: %s\n", args[1])
 				}
 			case "end":
-				if isValidDate(args[1]) {
-					End = args[1]
+				if t, err := dateparse.ParseAny(args[1]); err == nil {
+					End = t.Format(time.RFC3339)
 					fmt.Printf("Updated 'end' to: %s\n", End)
 				} else {
 					fmt.Printf("Invalid date format for end: %s\n", args[1])
